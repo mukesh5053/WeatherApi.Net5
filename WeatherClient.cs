@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -19,10 +20,11 @@ namespace WeatherApi.Net5
         public record Weather(string description);
         public record Main(decimal temp);
 
-        public record Forecast(Weather[] Weathers, Main Main, long dt);
+        public record Forecast(Weather[] weather, Main main, long dt);
         public async Task<Forecast> GetWeatherAsync(string city)
         {
-            var forecast = await httpClient.GetFromJsonAsync<Forecast>($"Https>//{settings.WeatherApiHostName}/data/2.5/weather?q={city}&appid={settings.ApiKey}");
+            var forecast = await httpClient.GetFromJsonAsync<Forecast>($"Https://{settings.WeatherApiHostName}/data/2.5/weather?q={city}&appid={settings.ApiKey}&units=metric");
+            Console.Write(forecast);
             return forecast;
         }
 

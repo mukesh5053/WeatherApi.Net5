@@ -13,12 +13,12 @@ namespace WeatherApi.Net5.Controllers
     {
 
         private readonly ILogger<WeatherForecastController> _logger;
-        public readonly WeatherClient Client;
+        public readonly WeatherClient client;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherClient client)
         {
             _logger = logger;
-            Client = client;
+            this.client = client;
         }
 
 
@@ -26,12 +26,12 @@ namespace WeatherApi.Net5.Controllers
         [Route("{city}")]
         public async Task<WeatherForecast> GetAsync(string city)
         {
-            var forecast = await Client.GetWeatherAsync(city);
+            var forecast = await client.GetWeatherAsync(city);
 
             return new WeatherForecast
             {
-                Summary = forecast.Weathers[0].description,
-                TemperatureC = (int)forecast.Main.temp,
+                Summary = forecast.weather[0].description,
+                TemperatureC = (int)forecast.main.temp,
                 Date = DateTimeOffset.FromUnixTimeSeconds(forecast.dt).DateTime
 
             };
