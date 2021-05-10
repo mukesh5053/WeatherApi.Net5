@@ -18,6 +18,16 @@ namespace WeatherApi.Net5
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureLogging(
+                (context, loggin) =>
+                {
+                    if (context.HostingEnvironment.IsProduction())
+                    {
+                        loggin.ClearProviders();
+                        loggin.AddJsonConsole();
+                    }
+                }
+                )
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
